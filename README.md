@@ -1,3 +1,0 @@
-# Projects-JavaScript
-
-# hello friends
