@@ -1,3 +1,24 @@
+@media only screen and (max-width: 497px){
+  
+
+  body{
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  /* .show-modal:hover{
+    background-color: rgb(12, 232, 232);
+    border: 2px solid rgb(3,30,2);
+    color: rgb(33, 3, 33);
+   } */
+}
+
+
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +37,7 @@
     height: 100vh;
     position: relative;
     display: flex;
-    align-items: flex-start;
+   align-items: center;
     justify-content: center;
     background: linear-gradient(to top left, #28b487, #7dd56f);
   }
@@ -83,3 +104,11 @@
     backdrop-filter: blur(3px);
     z-index: 5;
   }
+
+ .show-modal:hover{
+  background-color: rgb(12, 232, 232);
+  border: 2px solid rgb(3,30,2);
+  color: rgb(33, 3, 33);
+ }
+
+  
