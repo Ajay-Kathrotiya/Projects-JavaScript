@@ -63,6 +63,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 
 
+// USE OF FOR EACH METHOD ::
 const displayMovements = function(movements){
 
      containerMovements.innerHTML = '';
@@ -75,7 +76,7 @@ const displayMovements = function(movements){
             const html = `
             <div class="movements__row">
             <div class="movements__type movements__type--${type}">${i+1} ${type}</div>
-            <div class="movements__value">${mov}</div>`
+            <div class="movements__value">${Math.abs(mov)}</div>`
 
             containerMovements.insertAdjacentHTML('afterbegin',html);
            
@@ -84,3 +85,25 @@ const displayMovements = function(movements){
 };
 
 displayMovements(account1.movements);
+
+// map method ::
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const eurtoUsd = 1.1;
+
+// const movementUsd = movements.map(mov => Math.round(eurtoUsd*mov));
+// console.log(movements);
+// console.log(movementUsd);
+
+//USE OF MAP METHOD :::
+const creatUserName = function(accounts){
+  accounts.forEach(account => account.username = account.owner.split(' ').map(name => name[0]).join('').toLowerCase());
+   
+}
+
+creatUserName(accounts);
+
+
+
+
+
+
