@@ -102,8 +102,20 @@ const creatUserName = function(accounts){
 
 creatUserName(accounts);
 
+// FILTER METHOD :: 
 
+const deposit = account1.movements.filter(function(mov){ return mov>0;});
+const withdrawal = account1.movements.filter(function(mov){ return mov<0;});
+console.log(deposit);
+console.log(withdrawal);
 
+const movements =  [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// REDUCE METHOD :: 
+
+// accumulator => snowball, or initital sum =0 :)
+
+const balance = movements.reduce(function(acc,mov,i,ar){return acc+mov;},0);
+console.log(balance);
 
 
