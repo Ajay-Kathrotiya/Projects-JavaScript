@@ -33,7 +33,22 @@ const account4 = {
   pin: 4444,
 };
 
-const accounts = [account1, account2, account3, account4];
+const account5 = {
+  owner: 'makodo marya',
+  movements: [430, 1000, 700, -345, 90,-123,90],
+  interestRate: 1.9,
+  pin: 1234,
+
+};
+
+const account6 = {
+  owner: 'Suhasini Gupta',
+  movements: [10,400,-65,2,-100,467,18],
+  interestRate: 1.8, // %
+  pin: 6666,
+};
+
+const accounts = [account1, account2, account3, account4,account5,account6];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -190,6 +205,32 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movements.push(-amount);
     updateUI(currentAccount);
   }
+});
+
+btnLoan.addEventListener('click',function(e){
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount>0 && currentAccount.movements.some(mov => mov >= .1*amount )){
+    currentAccount.movements.push(amount);
+    inputLoanAmount.value = '';
+    updateUI(currentAccount);
+
+  }
+})
+
+btnClose.addEventListener('click',function(e){
+  e.preventDefault();
+  if  (currentAccount.username === inputCloseUsername.value && currentAccount.pin === Number(inputClosePin.value)){
+
+    
+    const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+    accounts.splice(index,1);
+    containerApp.style.opacity = 0;
+    labelWelcome = 'Log in to get started';
+  }
+  inputClosePin.value=inputCloseUsername.value='';
+
 });
 
 // FILTER METHOD ::
