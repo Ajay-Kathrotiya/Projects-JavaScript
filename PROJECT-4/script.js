@@ -35,20 +35,19 @@ const account4 = {
 
 const account5 = {
   owner: 'makodo marya',
-  movements: [430, 1000, 700, -345, 90,-123,90],
+  movements: [430, 1000, 700, -345, 90, -123, 90],
   interestRate: 1.9,
   pin: 1234,
-
 };
 
 const account6 = {
   owner: 'Suhasini Gupta',
-  movements: [10,400,-65,2,-100,467,18],
+  movements: [10, 400, -65, 2, -100, 467, 18],
   interestRate: 1.8, // %
   pin: 6666,
 };
 
-const accounts = [account1, account2, account3, account4,account5,account6];
+const accounts = [account1, account2, account3, account4, account5, account6];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -77,11 +76,13 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // USE OF FOR EACH METHOD ::
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
   // .textContent = ''; same
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -207,32 +208,40 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
-btnLoan.addEventListener('click',function(e){
+btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
 
-  if (amount>0 && currentAccount.movements.some(mov => mov >= .1*amount )){
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= 0.1 * amount)) {
     currentAccount.movements.push(amount);
     inputLoanAmount.value = '';
     updateUI(currentAccount);
-
   }
-})
+});
 
-btnClose.addEventListener('click',function(e){
+btnClose.addEventListener('click', function (e) {
   e.preventDefault();
-  if  (currentAccount.username === inputCloseUsername.value && currentAccount.pin === Number(inputClosePin.value)){
-
-    
-    const index = accounts.findIndex(acc => acc.username === currentAccount.username);
-    accounts.splice(index,1);
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    accounts.splice(index, 1);
     containerApp.style.opacity = 0;
     labelWelcome = 'Log in to get started';
   }
-  inputClosePin.value=inputCloseUsername.value='';
-
+  inputClosePin.value = inputCloseUsername.value = '';
 });
 
+// Sort method implimentation ::
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  displayMovements(currentAccount.movements, !sorted);
+  sorted  = !sorted;
+});
 // FILTER METHOD ::
 
 // const deposit = account1.movements.filter(function(mov){ return mov>0;});
@@ -253,3 +262,8 @@ btnClose.addEventListener('click',function(e){
 
 // const firstWithdrawal = movements.find(mov=>mov<0);
 // console.log(firstWithdrawal);
+
+// many other method :> some,every,includes,flat,flatmap ::
+
+// const ar = [1,2,[3,4,5],6,7,[8,9,10]];
+// console.log(ar.flat());
