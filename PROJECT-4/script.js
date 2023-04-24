@@ -235,7 +235,7 @@ const updateUI = function (acc) {
 
 // Event handler ::
 
-let currentAccount;
+let currentAccount,timer;
 btnLogin.addEventListener('click', function (e) {
   // prevent form from submitting ::
   e.preventDefault();
@@ -271,7 +271,12 @@ btnLogin.addEventListener('click', function (e) {
 
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-
+    
+      // start logout timer
+       if (timer){
+        clearInterval(timer);
+       }
+        timer = startLogOutTimer();
     // Display balance
 
     // Display Movements :
@@ -304,19 +309,36 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movementsDate.push(new Date().toISOString());
     currentAccount.movements.push(-amount);
     updateUI(currentAccount);
+
+    // reset timer:
+    
+    clearInterval(timer);
+    timer = startLogOutTimer();
+
   }
 });
 
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
+  setTimeout(function () {
+    if (
+      amount > 0 &&
+      currentAccount.movements.some(mov => mov >= 0.1 * amount)
+    ) {
+      currentAccount.movements.push(amount);
+      inputLoanAmount.value = '';
+      currentAccount.movementsDate.push(new Date().toISOString());
+      updateUI(currentAccount);
+     
+      // reset timer:
+    
+      clearInterval(timer);
+       timer = startLogOutTimer();
 
-  if (amount > 0 && currentAccount.movements.some(mov => mov >= 0.1 * amount)) {
-    currentAccount.movements.push(amount);
-    inputLoanAmount.value = '';
-    currentAccount.movementsDate.push(new Date().toISOString());
-    updateUI(currentAccount);
-  }
+    }
+  }, 3000);
+
 });
 
 btnClose.addEventListener('click', function (e) {
@@ -334,6 +356,39 @@ btnClose.addEventListener('click', function (e) {
   }
   inputClosePin.value = inputCloseUsername.value = '';
 });
+
+
+// log out timer ::
+
+const startLogOutTimer = function(){
+
+   const tick = function() {
+    const min = String(Math.trunc(time/60)).padStart(2,'0');
+    const sec = String(time%60).padStart(2,'0');   
+    // print time in min and sec 
+    labelTimer.textContent = `${min}:${sec}`;
+    
+  
+     // when time =0 , stop the fun and log out the user:
+  if (time==0){
+     clearInterval(timer);
+     containerApp.style.opacity = 0;
+     // Display Welcome message:
+     labelWelcome.textContent = 'Log in to get started';
+
+  }
+  // dec tiem and stop the func after 0 sec and log out the user :
+  time--;
+
+}
+  // set time to 5 min
+  let time = 300;
+  // call fun setinterval every second:
+  tick()
+  const timer = setInterval(tick, 1000);
+  return timer
+}
+
 
 // Sort method implimentation ::
 
